@@ -1,3 +1,4 @@
+    # version 1
 ✔ Creation de base de donnees et insertion de donnees @Manoina @done(25-07-14 10:05)
 
 ✔ Page: login.php @Toky @done(25-07-14 10:33)
@@ -7,6 +8,8 @@
     ☐ Affichage: formulaire: email, mdp @Manoina
     ☐ Fonctions: login($email, $mdp) @Toky
 
-
+    # version 2
+☐ Amelioration maximum design
+ 
 
 
