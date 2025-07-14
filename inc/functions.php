@@ -41,7 +41,7 @@ function get_categories()
     return $result;
 }
 
-function get_objects_list($id_categorie)
+function get_objects_list($id_categorie, $object_name, $selection)
 {
     $query = "SELECT o.nom_objet AS nom_objet,
                      e.date_retour AS date_retour,
@@ -61,6 +61,7 @@ function get_objects_list($id_categorie)
                 JOIN marche_categorie_objet AS co
                      ON o.id_categorie = co.id_categorie
                         AND (o.id_categorie = %s)
+                WHERE o.nom_objet = '%s' AND co.id_categorie IN (%s)          
              ";
 
     if ($id_categorie == "*") {
