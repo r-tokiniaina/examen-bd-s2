@@ -28,18 +28,49 @@ function sign_up($nom, $date_naisssance, $genre, $email, $ville,$mdp, $pdp){
                     (nom, date_de_naissance, genre, email, ville, mdp, image_profil) VALUES
                     ('%s' , '%s', '%s', '%s', '%s', '%s', '%s' )";
     $query = sprintf($query, $nom, $date_naisssance, $genre, $email, $ville,$mdp, $pdp);
-    $query = query_db_and_get_result_array($query);                 
+    query_db_without_result($query);
 }
 
-function get_objects_list($id_categorie){
-    $query = "SELECT marche_objet.nom_objet AS nom_objet,
-                     marche_emprunt.date_retour AS date_retour
-                 FROM marche_objet 
-                 JOIN marche_emprunt
-                    ON marche_objet.id_objet = marche_emprunt.id_objet
-                 JOIN marche_categorie_objet
-                    ON marche_objet.id_categorie = marche_categorie_objet.id_categorie    
-              WHERE marche_categorie_objet.id_categorie = %s";
-              
+function get_categories()
+{
+    $query = "SELECT id_categorie,
+                     nom_categorie
+                FROM marche_categorie_objet
+             ";
+    $result = query_db_and_get_result_array($query);
+    return $result;
 }
+
+function get_objects_list($id_categorie)
+{
+    $query = "SELECT o.nom_objet AS nom_objet,
+                     e.date_retour AS date_retour,
+                     co.nom_categorie AS nom_categorie
+                FROM marche_objet AS o
+                JOIN marche_emprunt AS e
+                     ON o.id_objet = e.id_objet
+                        AND NOW() BETWEEN e.date_emprunt AND e.date_retour
+                JOIN marche_categorie_objet AS co
+                     ON o.id_categorie = co.id_categorie
+                        AND (o.id_categorie = %s)
+               UNION
+              SELECT o.nom_objet,
+                     '0000-00-00',
+                     co.nom_categorie AS nom_categorie
+                FROM marche_objet AS o
+                JOIN marche_categorie_objet AS co
+                     ON o.id_categorie = co.id_categorie
+                        AND (o.id_categorie = %s)
+             ";
+
+    if ($id_categorie == "*") {
+        $id_categorie = "0 OR 0=0";
+    }
+
+    $query = sprintf($query, $id_categorie, $id_categorie);
+
+    $result = query_db_and_get_result_array($query);
+    return $result;
+}
+
 ?>

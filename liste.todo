@@ -4,8 +4,8 @@
     ✔ Affichage: formulaire: email, mdp @done(25-07-14 10:33)
     ✔ Fonctions: login($email, $mdp) @done(25-07-14 10:33)
 ☐ Page: signup.php @Toky
-    ☐ Affichage: formulaire: email, mdp
-    ☐ Fonctions: login($email, $mdp)
+    ☐ Affichage: formulaire: email, mdp @Manoina
+    ☐ Fonctions: login($email, $mdp) @Toky
 
 
 
