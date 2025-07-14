@@ -114,6 +114,19 @@ function get_member_infos($id_membre){
     return $result;
 }
 
+
+function get_member_objects_ordered_by_category($id_membre){
+    $query = "SELECT marche_categorie_objet.nom_categorie AS categorie_name,
+                     marche_objet.nom_objet AS object_name
+              FROM marche_objet
+              JOIN marche_categorie_objet 
+                ON marche_objet.id_categorie = marche_categorie_objet.id_categorie
+              WHERE marche_objet.id_membre = %s
+              ORDER BY marche_categorie_objet.nom_categorie";
+    $query = sprintf($query, $id_membre);
+    return query_db_and_get_result_array($query);
+}
+
 function get_member_object($id_membre, $id_categorie){
     $query = "SELECT marche_membre.nom AS member_name,
                      marche_objet.nom_objet AS object_name,
