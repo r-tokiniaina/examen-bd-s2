@@ -8,7 +8,6 @@ $id_membre = $_SESSION["id_membre_connecte"];
 
 $nom_objet = $_POST["nom_objet"];
 $id_categorie = $_POST["id_categorie"];
-$image = $_FILES["image"];
 
 $id_objet = add_object($nom_objet, $id_categorie, $id_membre);
 if ($image != null) {
