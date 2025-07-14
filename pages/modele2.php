@@ -5,7 +5,7 @@ include("../inc/functions.php");
 $page_a_afficher = $_GET["p"];
 
 $title_page = "";
-// TODO
+
 
 ?>
 

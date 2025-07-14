@@ -6,7 +6,7 @@ function connect_to_db()
     if ($mysql === null) {
         // $mysql = mysqli_connect('localhost', 'ETU004158', 'S4slCDoX', 'db_s2_ETU004158');
         // $mysql = mysqli_connect('localhost', 'ETU004035', '2lxvLJOu', 'db_s2_ETU004035');
-        $mysql = mysqli_connect('localhost', 'root', '', 't');
+        $mysql = mysqli_connect('localhost', 'root', '', 'marche');
         if (! $mysql) {
             die("Failed to connect to the database : " . mysqli_connect_error());
         }
@@ -19,7 +19,7 @@ function connect_to_db_object()
 {
     // $mysqli = new mysqli('localhost', 'ETU004158', 'S4slCDoX', 'db_s2_ETU004158');
     // $mysql = mysqli_connect('localhost', 'ETU004035', '2lxvLJOu', 'db_s2_ETU004035');
-    $mysqli = new mysqli('localhost', 'root', '', 't');
+    $mysqli = new mysqli('localhost', 'root', '', 'marche');
     return $mysqli;
 }
 

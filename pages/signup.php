@@ -17,7 +17,7 @@
     <label>Photo de profil</label>
     <input type="file" name="image_profil">
 
-    <input type="submit" value="Se connecter">
+    <input type="submit" value="S'inscrire">
 </form>
 
 <h6>Vous avez deja un compte ? </h6>

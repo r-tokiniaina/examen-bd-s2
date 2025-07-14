@@ -19,7 +19,7 @@ CREATE TABLE marche_categorie_objet(
 
 CREATE TABLE marche_objet(
     id_objet INT PRIMARY KEY AUTO_INCREMENT,
-    nom_objet VARCHAR(20),
+    nom_objet VARCHAR(50),
     id_categorie INT,
     id_membre INT,
     FOREIGN KEY (id_categorie) REFERENCES marche_categorie_objet(id_categorie),
