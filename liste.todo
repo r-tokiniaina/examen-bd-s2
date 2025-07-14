@@ -12,4 +12,12 @@
 ☐ Amelioration maximum design
  ☐ 
 
-☐ 
+
+☐ Improving research mode 
+
+☐ Fiche_membre.php
+    ☐ Fonctions @Manoina
+        ✔ Get_member_info(id_membre) @done(25-07-14 14:02)
+        ✔ Get_member_objects(id_membre, id_categorie) @done(25-07-14 14:02)
+    ☐ affichage
+

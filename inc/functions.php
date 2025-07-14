@@ -73,4 +73,34 @@ function get_objects_list($id_categorie)
     return $result;
 }
 
+function get_member_infos($id_membre){
+    $query = "SELECT marche_membre.nom AS member_name, 
+                     marche_membre.date_de_naissance AS member_dtn, 
+                     marche_membre.genre AS member_gender, 
+                     marche_membre.email AS member_email, 
+                     marche_membre.ville AS member_city, 
+                     marche_membre.image_profil AS member_pdp
+                 FROM marche_membre
+                 WHERE marche_membre.id_membre = %s";
+    $query = sprintf($query, $id_membre);
+    $result = query_db_and_get_result_array($query);
+    return $result;
+}
+
+function get_member_object($id_membre, $id_categorie){
+    $query = "SELECT marche_membre.nom AS member_name,
+                     marche_objet.nom_objet AS object_name,
+                     marche_categorie_objet.nom_categorie AS categorie_name
+                 FROM marche_membre
+                    JOIN marche_objet
+                        ON marche_membre.id_membre = marche_objet.id_membre
+                    JOIN marche_categorie_objet
+                        ON marche_objet.id_categorie = marche_categorie_objet.id_categorie
+                WHERE marche_membre.id_membre = %s 
+                    AND marche_categorie_objet.id_categorie = %s";
+    $query = sprintf($query, $id_membre, $id_categorie);
+    $result = query_db_and_get_result_array($query);
+    return $result;                 
+}
+
 ?>
