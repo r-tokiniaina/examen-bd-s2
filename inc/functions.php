@@ -2,6 +2,31 @@
 
 include("sql_database.php");
 
+function upload($file, $nouveau_nom)
+{
+    $mimes_images = ["image/jpeg", "image/png"];
+    if ($file['error'] !== UPLOAD_ERR_OK) {
+        die('Erreur lors de l’upload : ' . $file['error']);
+    }
+
+    $finfo = finfo_open(FILEINFO_MIME_TYPE);
+    $mime = finfo_file($finfo, $file['tmp_name']);
+    finfo_close($finfo);
+
+    if (!in_array($mime, $mimes_images)) {
+        die('Type de fichier non autorisé : ' . $mime); 
+    } 
+
+    $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
+
+    $nom_fichier = $nouveau_nom . "." . $extension;
+    $path = __DIR__ . "/../assets/images/" . $nom_fichier;
+
+    move_uploaded_file($file['tmp_name'], $path);
+
+    return $nom_fichier;
+}
+
 function login($email, $mdp)
 {
     $query = "SELECT id_membre
@@ -101,7 +126,35 @@ function get_member_object($id_membre, $id_categorie){
                     AND marche_categorie_objet.id_categorie = %s";
     $query = sprintf($query, $id_membre, $id_categorie);
     $result = query_db_and_get_result_array($query);
-    return $result;                 
+    return $result;
+}
+
+function add_object($nom_objet, $id_categorie, $id_membre)
+{
+    $query = "INSERT INTO marche_objet(nom_objet, id_categorie, id_membre)
+              VALUES ('%s', %s, %s)";
+    $query = sprintf($query, $nom_objet, $id_categorie, $id_membre);
+    $id_objet = query_db_and_get_inserted_id($query);
+    return $id_objet;
+}
+
+function add_object_image($id_objet, $image)
+{
+    $nom_image = uniqid();
+    $nom_image = upload($image, $nom_image);
+
+    $query = "INSERT INTO marche_images_objet(id_objet, nom_image)
+              VALUES (%s, '%s')";
+    $query = sprintf($query, $id_objet, $nom_image);
+    query_db_without_result($query);
+}
+
+function remove_object_image($id_image)
+{
+    $query = "DELETE FROM marche_images_objet
+               WHERE id_image = %s";
+    $query = sprintf($query, $id_image);
+    query_db_without_result($query);
 }
 
 ?>

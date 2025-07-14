@@ -7,6 +7,20 @@ $objects = get_objects_list($id_categorie);
 
 ?>
 
+<h3>Ajouter un objet...</h3>
+<form action="traitement-add_object.php" method="post" enctype="multipart/form-data">
+    <label>Nom</label>
+    <input type="text" name="nom_objet">
+    <label>Categorie</label>
+    <select name="id_categorie">
+        <?php foreach ($categories as $cat) { ?>
+            <option value="<?= $cat["id_categorie"] ?>"><?= $cat["nom_categorie"] ?></option>
+        <?php } ?>
+    </select>
+
+    <input type="submit" value="Ajouter">
+</form>
+
 <form action="modele2.php" method="get">
     <input type="hidden" name="p" value="home">
     <label>Categorie</label>
