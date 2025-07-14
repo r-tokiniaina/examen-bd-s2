@@ -1,11 +1,16 @@
 <?php
 
 $id_categorie = isset($_GET["id_categorie"]) ? $_GET["id_categorie"] : "*";
-
 $categories = get_categories();
 $objects = get_objects_list($id_categorie);
-
+if ($id_categorie == "*") {
+    # code...
+}
+elseif ($id_categorie == "multi") {
+    $selection = 
+}
 ?>
+
 
 <h3>Ajouter un objet...</h3>
 <form action="traitement-add_object.php" method="post" enctype="multipart/form-data">
@@ -23,13 +28,21 @@ $objects = get_objects_list($id_categorie);
 
 <form action="modele2.php" method="get">
     <input type="hidden" name="p" value="home">
+
     <label>Categorie</label>
+
     <select name="id_categorie">
         <option value="*">Tous</option>
         <?php foreach ($categories as $cat) { ?>
             <option value="<?= $cat["id_categorie"] ?>"><?= $cat["nom_categorie"] ?></option>
         <?php } ?>
+        <option value="multi">Multiple</option>
     </select>
+
+    <?php foreach ($categories as $cat) { ?>
+            <label for="categorie_<?= $cat["id_categorie"] ?>"><?= $cat["nom_categorie"] ?></label>
+            <input type="checkbox" name="categorie[]" id="categorie_<?= $cat["id_categorie"] ?>">
+        <?php } ?>
 
     <input type="submit" value="Filtrer">
 </form>
