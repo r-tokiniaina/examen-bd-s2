@@ -1,3 +1,12 @@
 ✔ Creation de base de donnees et insertion de donnees @Manoina @done(25-07-14 10:05)
 
+✔ Page: login.php @Toky @done(25-07-14 10:33)
+    ✔ Affichage: formulaire: email, mdp @done(25-07-14 10:33)
+    ✔ Fonctions: login($email, $mdp) @done(25-07-14 10:33)
+☐ Page: signup.php @Toky
+    ☐ Affichage: formulaire: email, mdp
+    ☐ Fonctions: login($email, $mdp)
+
+
+
 

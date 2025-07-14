@@ -1,5 +1,5 @@
 <?php
 
-header("Location: pages/modele.php?p=");
+header("Location: pages/modele1.php?p=login");
 
 ?>
