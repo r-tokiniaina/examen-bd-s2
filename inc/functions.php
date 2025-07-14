@@ -157,4 +157,44 @@ function remove_object_image($id_image)
     query_db_without_result($query);
 }
 
+function get_object_infos($id_objet)
+{
+    $query = "SELECT marche_membre.nom AS nom_membre,
+                     marche_objet.nom_objet AS nom_objet,
+                     marche_categorie_objet.nom_categorie AS nom_categorie
+                 FROM marche_objet
+                    JOIN marche_membre
+                        ON marche_membre.id_membre = marche_objet.id_membre
+                    JOIN marche_categorie_objet
+                        ON marche_objet.id_categorie = marche_categorie_objet.id_categorie
+                WHERE marche_objet.id_objet = %s
+             ";
+    $query = sprintf($query, $id_objet);
+    $result = query_db_and_get_result_array($query);
+    return $result[0];
+}
+
+function get_object_emprunts($id_objet)
+{
+    $query = "SELECT marche_membre.nom AS nom_membre,
+                     marche_emprunt.date_emprunt AS nom_objet,
+                     marche_categorie_objet.nom_tgie AS nom_categorie
+                 FROM marche_emprunt
+                    JOIN marche_membre
+                        ON marche_membre.id_membre = marche_emprunt.id_membre
+                WHERE marche_emprunt.id_objet = %s
+
+
+CREATE TABLE marche_emprunt(
+    id_emprunt INT PRIMARY KEY AUTO_INCREMENT,
+    id_objet INT,
+    id_membre INT, 
+    date_emprunt DATE,
+    date_retour DATE,
+                 ";
+    $query = sprintf($query, $id_objet);
+    $result = query_db_and_get_result_array($query);
+    return $result[0];
+}
+
 ?>
