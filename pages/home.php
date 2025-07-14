@@ -3,12 +3,7 @@
 $id_categorie = isset($_GET["id_categorie"]) ? $_GET["id_categorie"] : "*";
 $categories = get_categories();
 $objects = get_objects_list($id_categorie);
-if ($id_categorie == "*") {
-    # code...
-}
-elseif ($id_categorie == "multi") {
-    $selection = 
-}
+
 ?>
 
 
@@ -26,6 +21,7 @@ elseif ($id_categorie == "multi") {
     <input type="submit" value="Ajouter">
 </form>
 
+<h3>Filtrer les objets</h3>
 <form action="modele2.php" method="get">
     <input type="hidden" name="p" value="home">
 
@@ -36,13 +32,7 @@ elseif ($id_categorie == "multi") {
         <?php foreach ($categories as $cat) { ?>
             <option value="<?= $cat["id_categorie"] ?>"><?= $cat["nom_categorie"] ?></option>
         <?php } ?>
-        <option value="multi">Multiple</option>
     </select>
-
-    <?php foreach ($categories as $cat) { ?>
-            <label for="categorie_<?= $cat["id_categorie"] ?>"><?= $cat["nom_categorie"] ?></label>
-            <input type="checkbox" name="categorie[]" id="categorie_<?= $cat["id_categorie"] ?>">
-        <?php } ?>
 
     <input type="submit" value="Filtrer">
 </form>
@@ -52,15 +42,27 @@ elseif ($id_categorie == "multi") {
     <tr>
         <th>Objet</th>
         <th>Categorie</th>
-        <th>Date de retour</th>
+        <th>Disponibilite</th>
     </tr>
     <?php foreach ($objects as $obj) { ?>
         <tr>
-            <td><?= $obj["nom_objet"] ?></td>
+            <td>
+                <a href="modele2.php?p=fiche_objet&id_objet=<?= $obj["id_objet"] ?>"><?= $obj["nom_objet"] ?></a>
+            </td>
+            <!-- <td><?= $obj["nom_objet"] ?></td> -->
             <td><?= $obj["nom_categorie"] ?></td>
             <td>
                 <?php if ($obj["date_retour"] != "0000-00-00") { ?>
-                    <?= $obj["date_retour"] ?>
+                    Disponible le <?= $obj["date_retour"] ?>
+                <?php } else { ?>
+                    Disponible
+                    <form action="traitement-emprunt.php" method="post">
+                        <input type="hidden" name="id_objet" value="<?= $obj["id_objet"] ?>">
+                        <label>Emprunter pour </label>
+                        <input type="number" name="nb_jours_emprunt">
+                        <label>jours</label>
+                        <input type="submit" value="Emprunter">
+                    </form>
                 <?php } ?>
         </tr>
     <?php } ?>

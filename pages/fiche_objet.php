@@ -30,7 +30,11 @@ $prop = ($id_membre_connecte == $info_objet["id_membre"]);
     <p>Proprietaire: <?= $info_objet["nom_membre"] ?></p>
 </div>
 
+<h3>Photos</h3>
 <div>
+    <?php if (count($images) == 0) { ?>
+        <p>Aucune image</p>
+    <?php } ?>
     <?php foreach ($images as $img) { ?>
         <img src="../assets/images/<?= $img["nom_image"] ?>">
         <?php if ($prop) { ?>

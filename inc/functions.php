@@ -65,10 +65,11 @@ function get_categories()
     $result = query_db_and_get_result_array($query);
     return $result;
 }
-// , $object_name, $selection
+
 function get_objects_list($id_categorie)
 {
     $query = "SELECT o.nom_objet AS nom_objet,
+                     o.id_objet AS id_objet,
                      e.date_retour AS date_retour,
                      co.nom_categorie AS nom_categorie
                 FROM marche_objet AS o
@@ -80,6 +81,7 @@ function get_objects_list($id_categorie)
                         AND (o.id_categorie = %s)
                UNION
               SELECT o.nom_objet,
+                     o.id_objet,
                      '0000-00-00',
                      co.nom_categorie AS nom_categorie
                 FROM marche_objet AS o
@@ -159,6 +161,7 @@ function remove_object_image($id_image)
 function get_object_infos($id_objet)
 {
     $query = "SELECT marche_membre.nom AS nom_membre,
+                     marche_membre.id_membre AS id_membre,
                      marche_objet.nom_objet AS nom_objet,
                      marche_categorie_objet.nom_categorie AS nom_categorie
                  FROM marche_objet
@@ -176,24 +179,36 @@ function get_object_infos($id_objet)
 function get_object_emprunts($id_objet)
 {
     $query = "SELECT marche_membre.nom AS nom_membre,
-                     marche_emprunt.date_emprunt AS nom_objet,
-                     marche_categorie_objet.nom_tgie AS nom_categorie
+                     marche_emprunt.date_emprunt AS date_emprunt,
+                     marche_emprunt.date_retour AS date_retour
                  FROM marche_emprunt
                     JOIN marche_membre
                         ON marche_membre.id_membre = marche_emprunt.id_membre
                 WHERE marche_emprunt.id_objet = %s
-
-
-CREATE TABLE marche_emprunt(
-    id_emprunt INT PRIMARY KEY AUTO_INCREMENT,
-    id_objet INT,
-    id_membre INT, 
-    date_emprunt DATE,
-    date_retour DATE,
-                 ";
+               ";
     $query = sprintf($query, $id_objet);
     $result = query_db_and_get_result_array($query);
-    return $result[0];
+    return $result;
+}
+
+function get_object_images($id_objet)
+{
+    $query = "SELECT marche_images_objet.id_image AS id_image,
+                     marche_images_objet.nom_image AS nom_image
+                FROM marche_images_objet
+               WHERE marche_images_objet.id_objet = %s
+               ";
+    $query = sprintf($query, $id_objet);
+    $result = query_db_and_get_result_array($query);
+    return $result;
+}
+
+function emprunter_object($id_objet, $id_membre, $nb_jours_emprunt)
+{
+    $query = "INSERT INTO marche_emprunt(id_objet, id_membre, date_emprunt, date_retour)
+              VALUES (%s, %s, NOW(), DATE_ADD(NOW(), INTERVAL %s DAY))";
+    $query = sprintf($query, $id_objet, $id_membre, $nb_jours_emprunt);
+    query_db_without_result($query);
 }
 
 ?>
