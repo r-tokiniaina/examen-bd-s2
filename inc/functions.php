@@ -224,4 +224,23 @@ function emprunter_object($id_objet, $id_membre, $nb_jours_emprunt)
     query_db_without_result($query);
 }
 
+function get_current_emprunts_by_member($id_membre) {
+    $query = "SELECT marche_emprunt.id_emprunt, 
+                    marche_objet.nom_objet, 
+                    marche_emprunt.date_emprunt, 
+                    marche_emprunt.date_retour
+              FROM marche_emprunt
+              JOIN marche_objet ON marche_emprunt.id_objet = marche_objet.id_objet
+              WHERE marche_emprunt.id_membre = %s 
+                AND marche_emprunt.date_retour > CURDATE()";
+    $query = sprintf($query, $id_membre);
+    return query_db_and_get_result_array($query);
+}
+
+function delete_emprunt($id_emprunt) {
+    $query = "DELETE FROM marche_emprunt WHERE id_emprunt = %s";
+    $query = sprintf($query, $id_emprunt);
+    query_db_without_result($query);
+}
+
 ?>
